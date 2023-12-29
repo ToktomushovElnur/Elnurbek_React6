@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+//useEffect)))
+import React, { useEffect, useState } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const AnimatedHeaderWithEffect = () => {
+    const [isFocused, setIsFocused] = useState(false);
 
-export default App;
+    useEffect(() => {
+        const handleFocus = () => {
+            setIsFocused(true);
+        };
+
+        const handleBlur = () => {
+            setIsFocused(false);
+        };
+
+        const inputElement = document.getElementById('animatedInput');
+
+        inputElement.addEventListener('focus', handleFocus);
+        inputElement.addEventListener('blur', handleBlur);
+
+        return () => {
+            inputElement.removeEventListener('focus', handleFocus);
+            inputElement.removeEventListener('blur', handleBlur);
+        };
+    }, []);
+
+    return (
+        <div>
+            <h1 className={isFocused ? 'focused' : ''}>Анимированный Заголовок</h1>
+            <input id="animatedInput" type="text" placeholder="Фокус!" />
+        </div>
+    );
+};
+
+export default AnimatedHeaderWithEffect;
+
